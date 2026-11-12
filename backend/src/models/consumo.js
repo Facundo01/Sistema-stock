@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Usuario = require('./Usuario');
+const usuario = require('./usuario');
 const Producto = require('./producto');
 
 const Consumo = sequelize.define('Consumo', {
@@ -40,7 +40,7 @@ const Consumo = sequelize.define('Consumo', {
 
 // Asociaciones seguras alineadas al diagrama relacional
 Consumo.belongsTo(Usuario, { foreignKey: 'id_usuario', targetKey: 'id_usuario', constraints: false });
-Usuario.hasMany(Consumo, { foreignKey: 'id_usuario', constraints: false });
+usuario.hasMany(Consumo, { foreignKey: 'id_usuario', constraints: false });
 
 Consumo.belongsTo(Producto, { foreignKey: 'id_producto', constraints: false });
 Producto.hasMany(Consumo, { foreignKey: 'id_producto', constraints: false });
