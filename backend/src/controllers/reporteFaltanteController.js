@@ -1,10 +1,10 @@
 const ReporteFaltante = require('../models/reporteFaltante');
-const Usuario = require('../models/usuario');
+const usuario = require('../models/usuario');
 
 // Crear reporte de faltante (Cocinero)
 exports.crearReporte = async (req, res) => {
   try {
-    const idUsuario = req.usuario?.id_usuario || req.usuario?.id;
+    const idusuario = req.usuario?.id_usuario || req.usuario?.id;
     const { producto_solicitado, cantidad_necesaria, urgencia, observacion } = req.body;
 
     if (!producto_solicitado) {
@@ -12,7 +12,7 @@ exports.crearReporte = async (req, res) => {
     }
 
     const nuevoReporte = await ReporteFaltante.create({
-      id_usuario: idUsuario,
+      id_usuario: idusuario,
       producto_solicitado,
       cantidad_necesaria: cantidad_necesaria || 'A criterio',
       urgencia: urgencia || 'Normal',
@@ -36,7 +36,7 @@ exports.obtenerReportes = async (req, res) => {
       where: { resuelto: false },
       include: [
         {
-          model: Usuario,
+          model: usuario,
           attributes: ['name', 'surname', 'rol']
         }
       ],

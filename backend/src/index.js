@@ -11,7 +11,7 @@ require('dotenv').config(); // Carga las variables de entorno del archivo .env a
 const sequelize = require('./config/db'); // Instancia de Sequelize conectada a PostgreSQL
 
 // Importación de los Modelos de la Aplicación
-const Usuario = require('./models/usuario'); // Modelo de Usuarios (Administrador, Nutricionista, Cocinero)
+const usuario = require('./models/usuario'); // Modelo de Usuarios (Administrador, Nutricionista, Cocinero)
 require('./models/producto'); // Modelo de productos/insumos de la cocina
 require('./models/lote'); // Modelo de lotes y fechas de vencimiento
 require('./models/consumo'); // Modelo de salidas y consumos de stock
@@ -59,9 +59,9 @@ const crearusuariosPorDefecto = async () => {
     const passwordHash = await bcrypt.hash('123', salt); // Contraseña por defecto: 123
 
     // 1. Crear Administrador por defecto si no existe
-    const adminExistente = await Usuario.findOne({ where: { email: 'admin@hospital.com' } });
+    const adminExistente = await usuario.findOne({ where: { email: 'admin@hospital.com' } });
     if (!adminExistente) {
-      await Usuario.create({
+      await usuario.create({
         name: 'Administrador',
         surname: 'General',
         email: 'admin@hospital.com',
@@ -73,9 +73,9 @@ const crearusuariosPorDefecto = async () => {
     }
 
     // 2. Crear Nutricionista por defecto si no existe
-    const nutricionistaExistente = await Usuario.findOne({ where: { email: 'nutricionista@hospital.com' } });
+    const nutricionistaExistente = await usuario.findOne({ where: { email: 'nutricionista@hospital.com' } });
     if (!nutricionistaExistente) {
-      await Usuario.create({
+      await usuario.create({
         name: 'Ana',
         surname: 'Gómez',
         email: 'nutricionista@hospital.com',
@@ -87,9 +87,9 @@ const crearusuariosPorDefecto = async () => {
     }
 
     // 3. Crear Cocinero por defecto si no existe
-    const cocineroExistente = await Usuario.findOne({ where: { email: 'cocinero@hospital.com' } });
+    const cocineroExistente = await usuario.findOne({ where: { email: 'cocinero@hospital.com' } });
     if (!cocineroExistente) {
-      await Usuario.create({
+      await usuario.create({
         name: 'Carlos',
         surname: 'Pérez',
         email: 'cocinero@hospital.com',

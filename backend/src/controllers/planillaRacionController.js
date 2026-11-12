@@ -1,12 +1,12 @@
 const planillaRacion = require('../models/planillaRacion');
-const Usuario = require('../models/usuario'); // <--- Corrección aquí
+const usuario = require('../models/usuario'); // <--- Corrección aquí
 
 // Obtener todas las planillas de raciones
 const obtenerPlanillasRaciones = async (req, res) => {
   try {
     const lista = await planillaRacion.findAll({
       include: {
-        model: Usuario,
+        model: usuario,
         attributes: ['name', 'surname', 'rol']
       }
     });
@@ -21,7 +21,7 @@ const crearPlanillaRacion = async (req, res) => {
   try {
     const { id_usuario, fecha_creacion, tipo_comida } = req.body;
 
-    const usuarioExiste = await Usuario.findByPk(id_usuario);
+    const usuarioExiste = await usuario.findByPk(id_usuario);
     if (!usuarioExiste) return res.status(404).json({ mensaje: 'El usuario no existe' });
 
     const nuevaPlanilla = await planillaRacion.create({

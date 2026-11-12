@@ -1,11 +1,11 @@
-const Usuario = require('../models/usuario');
+const usuario = require('../models/usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = process.env.JWT_SECRET || 'secreto_super_seguro_hospital';
 
 // Registrar nuevo personal (Admin)
-exports.registrarUsuario = async (req, res) => {
+exports.registrarusuario = async (req, res) => {
   try {
     const { name, surname, dni, email, password, rol } = req.body;
 
@@ -13,15 +13,15 @@ exports.registrarUsuario = async (req, res) => {
       return res.status(400).json({ mensaje: 'Todos los campos obligatorios deben ser completados.' });
     }
 
-    const existeUsuario = await Usuario.findOne({ where: { email } });
-    if (existeUsuario) {
+    const existeusuario = await usuario.findOne({ where: { email } });
+    if (existeusuario) {
       return res.status(400).json({ mensaje: 'El correo electrónico ya está registrado.' });
     }
 
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const nuevoUsuario = await Usuario.create({
+    const nuevousuario = await usuario.create({
       name,
       surname,
       dni: dni || null,
@@ -33,11 +33,11 @@ exports.registrarUsuario = async (req, res) => {
     return res.status(201).json({
       mensaje: '¡Usuario registrado con éxito!',
       usuario: {
-        id_usuario: nuevoUsuario.id_usuario,
-        name: nuevoUsuario.name,
-        surname: nuevoUsuario.surname,
-        email: nuevoUsuario.email,
-        rol: nuevoUsuario.rol
+        id_usuario: nuevousuario.id_usuario,
+        name: nuevousuario.name,
+        surname: nuevousuario.surname,
+        email: nuevousuario.email,
+        rol: nuevousuario.rol
       }
     });
   } catch (error) {
@@ -47,7 +47,7 @@ exports.registrarUsuario = async (req, res) => {
 };
 
 // Login de usuario
-exports.loginUsuario = async (req, res) => {
+exports.loginusuario = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -55,9 +55,9 @@ exports.loginUsuario = async (req, res) => {
       return res.status(400).json({ mensaje: 'Correo y contraseña requeridos.' });
     }
 
-    const usuario = await Usuario.findOne({ where: { email } });
+    const usuario = await usuario.findOne({ where: { email } });
     if (!usuario) {
-      return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+      return res.status(404).json({ mensaje: 'usuario no encontrado.' });
     }
 
     const esValida = await bcrypt.compare(password, usuario.password);
@@ -93,9 +93,9 @@ exports.loginUsuario = async (req, res) => {
 };
 
 // Obtener listado de usuarios
-exports.obtenerUsuarios = async (req, res) => {
+exports.obtenerusuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.findAll({
+    const usuarios = await usuario.findAll({
       attributes: { exclude: ['password'] },
       order: [['createdAt', 'DESC']]
     });
@@ -107,17 +107,17 @@ exports.obtenerUsuarios = async (req, res) => {
 };
 
 // Eliminar usuario
-exports.eliminarUsuario = async (req, res) => {
+exports.eliminarusuario = async (req, res) => {
   try {
     const { id } = req.params;
-    const usuario = await Usuario.findByPk(id);
+    const usuario = await usuario.findByPk(id);
 
     if (!usuario) {
-      return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+      return res.status(404).json({ mensaje: 'usuario no encontrado.' });
     }
 
     await usuario.destroy();
-    return res.status(200).json({ mensaje: '¡Usuario eliminado con éxito!' });
+    return res.status(200).json({ mensaje: '¡usuario eliminado con éxito!' });
   } catch (error) {
     console.error('Error al eliminar usuario:', error);
     return res.status(500).json({ mensaje: 'Error interno del servidor.' });
@@ -134,9 +134,9 @@ exports.resetearPassword = async (req, res) => {
       return res.status(400).json({ mensaje: 'La nueva contraseña debe tener al menos 4 caracteres.' });
     }
 
-    const usuario = await Usuario.findByPk(id);
+    const usuario = await usuario.findByPk(id);
     if (!usuario) {
-      return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+      return res.status(404).json({ mensaje: 'usuario no encontrado.' });
     }
 
     const salt = await bcrypt.genSalt(10);

@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Usuario = require('./usuario');
+const usuario = require('./usuario');
 
 const ReporteFaltante = sequelize.define('ReporteFaltante', {
   id_reporte: {
@@ -12,7 +12,7 @@ const ReporteFaltante = sequelize.define('ReporteFaltante', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Usuario,
+      model: usuario,
       key: 'id_usuario'
     },
     onDelete: 'CASCADE'
@@ -42,7 +42,7 @@ const ReporteFaltante = sequelize.define('ReporteFaltante', {
   timestamps: true
 });
 
-Usuario.hasMany(ReporteFaltante, { foreignKey: 'id_usuario', onDelete: 'CASCADE' });
-ReporteFaltante.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+usuario.hasMany(ReporteFaltante, { foreignKey: 'id_usuario', onDelete: 'CASCADE' });
+ReporteFaltante.belongsTo(usuario, { foreignKey: 'id_usuario' });
 
 module.exports = ReporteFaltante;

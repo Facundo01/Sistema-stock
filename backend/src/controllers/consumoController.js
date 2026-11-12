@@ -5,9 +5,9 @@ const Producto = require('../models/producto');
 exports.registrarConsumo = async (req, res) => {
   try {
     // Extraer de forma segura el ID del usuario del token
-    const idUsuario = req.usuario?.id_usuario || req.usuario?.id;
+    const idusuario = req.usuario?.id_usuario || req.usuario?.id;
 
-    if (!idUsuario) {
+    if (!idusuario) {
       return res.status(401).json({ mensaje: 'Acceso denegado: Token inválido o sin ID de usuario.' });
     }
 
@@ -38,7 +38,7 @@ exports.registrarConsumo = async (req, res) => {
     // Registrar el movimiento en la tabla de consumos/mermas
     const nuevoConsumo = await Consumo.create({
       id_producto,
-      id_usuario: idUsuario,
+      id_usuario: idusuario,
       cantidad_consumida: cantidadARestar,
       unidad_consumo,
       motivo

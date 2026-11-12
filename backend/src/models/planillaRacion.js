@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Usuario = require('./usuario');
+const usuario = require('./usuario');
 
 const planillaRacion = sequelize.define('planillaRacion', {
   id_planilla: {
@@ -12,7 +12,7 @@ const planillaRacion = sequelize.define('planillaRacion', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Usuario,
+      model: usuario,
       key: 'id_usuario'
     }
   },
@@ -31,7 +31,7 @@ const planillaRacion = sequelize.define('planillaRacion', {
 });
 
 // Relación: Un usuario crea muchas planillas de raciones
-Usuario.hasMany(planillaRacion, { foreignKey: 'id_usuario' });
-planillaRacion.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+usuario.hasMany(planillaRacion, { foreignKey: 'id_usuario' });
+planillaRacion.belongsTo(usuario, { foreignKey: 'id_usuario' });
 
 module.exports = planillaRacion;
