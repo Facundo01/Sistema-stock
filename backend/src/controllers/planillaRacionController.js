@@ -1,5 +1,5 @@
 const planillaRacion = require('../models/planillaRacion');
-const Usuario = require('../models/Usuario'); // <--- Corrección aquí
+const Usuario = require('../models/usuario'); // <--- Corrección aquí
 
 // Obtener todas las planillas de raciones
 const obtenerPlanillasRaciones = async (req, res) => {
